@@ -36,7 +36,7 @@ install.packages("devtools")
 library(devtools)
 
 # Install canopyLazR from GitHub
-install_github("akamoske/canopyLazR")
+install_github("akamoske/hypRspec")
 
 # Load the library
 library(hypRspec)
