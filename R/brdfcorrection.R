@@ -20,7 +20,7 @@
 #' @return A list of topographically corrected matrices
 #' @export
 
-topo.correction <- function(hy.file, ndvi.mask, metadata.path, reflectance.path, wavelength.path, solar.az.path,
+brdf.correction <- function(hy.file, ndvi.mask, metadata.path, reflectance.path, wavelength.path, solar.az.path,
                             solar.zn.path, slope.path, aspect.path, band.combo){
   
   # lets look at the reflectance metadata
@@ -57,13 +57,13 @@ topo.correction <- function(hy.file, ndvi.mask, metadata.path, reflectance.path,
   aspect[aspect == data.ignore.val] <- NA
   solar.az[solar.az == data.ignore.val] <- NA
   solar.zn[solar.zn == data.ignore.val] <- NA
-
+  
   # now we need to convert these to radians
   slope <- (slope * pi) / 180
   aspect <- (aspect * pi) / 180
   solar.az <- (solar.az * pi) / 180
   solar.zn <- (solar.zn * pi) / 180
-
+  
   # Generate the cosine i
   # the cosine of the incidence angle (i ), defined as the angle between the normal to the pixel 
   # surface and the solar zenith direction
@@ -86,14 +86,6 @@ topo.correction <- function(hy.file, ndvi.mask, metadata.path, reflectance.path,
   
   # set up our list index
   q <- 1
-  
-  # lets do some memory clean up before we move on
-  gc()
-  rm(slope)
-  rm(aspect)
-  rm(solar.az)
-  rm(solar.zn)
-  gc()
   
   # first lets calculate the coefficients we will apply to all the images
   # if we are processing the entire image then we will remove the noisy bands
@@ -143,17 +135,6 @@ topo.correction <- function(hy.file, ndvi.mask, metadata.path, reflectance.path,
     # update our list index
     q <- q + 1
     
-    # lets do some memory clean up before we move on
-    gc()
-    rm(refl.array)
-    rm(refl.matrix)
-    rm(y)
-    rm(topo.lm)
-    rm(topo.coef)
-    rm(cor.fact)
-    rm(topo.cor)
-    gc()
-   
   }
   
   # return the list of corrected matrices
