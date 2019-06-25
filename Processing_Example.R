@@ -20,7 +20,7 @@ brightness <- brightness.mask(hy.file = "D:/BRDF_TESTING/TALL_HDF5/NEON_D08_TALL
                               wavelength.path = "/TALL/Reflectance/Metadata/Spectral_Data/Wavelength")
 
 # Apply the topographic correction
-hsi.raster <- hsi.correction2(hy.file = "D:/BRDF_TESTING/TALL_HDF5/NEON_D08_TALL_DP1_20180429_190316_reflectance.h5",
+hsi.raster <- hsiCorrection(hy.file = "D:/BRDF_TESTING/TALL_HDF5/NEON_D08_TALL_DP1_20180429_190316_reflectance.h5",
                              ndvi.mask = ndvi,
                              brightness.mask = brightness,
                              band.combo = c(25:194, 215:284, 325:403),
