@@ -404,6 +404,9 @@ hsiCorrection <- function(hy.file, ndvi.mask, brightness.mask, band.combo,
     # convert the matrix to a raster
     refl.raster <- raster(band.brdf, crs = crs.proj)
     
+    # we need to transpose the raster
+    refl.raster <- raster::t(refl.raster)
+    
     # find the dimensions of our raster
     y.dim <- dim(refl.raster)[1]
     x.dim <- dim(refl.raster)[2]
