@@ -101,11 +101,7 @@ hsiCorrection <- function(hy.file, ndvi.mask, brightness.mask, band.combo,
   solar.zn <- (solar.zn * pi) / 180
   sensor.az <- (sensor.az * pi) / 180
   sensor.zn <- (sensor.zn * pi) / 180
-  
-  print("Testing raster functions.")
-  testrst <- raster(sensor.zn)
-  plot(testrst)
-
+ 
   #---------------------------------------------------------------------------------------------------
   # lets calculate the topographic correction coefficients
   #---------------------------------------------------------------------------------------------------
