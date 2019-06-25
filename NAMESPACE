@@ -2,3 +2,4 @@
 
 export(brightness.mask)
 export(ndvi.mask)
+export(topo.correction)
