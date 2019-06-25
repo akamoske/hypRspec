@@ -29,3 +29,12 @@ A matrix containing the NDVI mask
 This function reads in a hdf5 file and create a NDVI matrix for use in the topographic and BRDF corrections that are
 applied in later steps.
 }
+\details{
+For theory behind this function please see:
+
+Asner, G.P., Martin, R.E., Anderson, C.B., and Knapp, D.E., 2015. Quantifying forest canopy traits: Imaging spectroscopy
+versus field survey. Remote Sensing of Environment, 158: 15-27.
+
+Dahlin, K.M., Asner, G.P., Field., C.B., 2014. Linking vegetation patterns to environmental gradients and human impacts 
+in a mediterranean-type island ecosystem. Landscape Ecology, 29(9): 1571-1585.
+}
