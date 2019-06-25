@@ -400,10 +400,7 @@ hsi.correction <- function(hy.file, ndvi.mask, brightness.mask, band.combo,
     #---------------------------------------------------------------------------------------------------
     
     print(paste0("transforming band ", q, " to a raster."))
-    
-    # make sure that the brdf correction is a matrix
-    band.brdf <- as.matrix(band.brdf)
-    
+   
     # convert the matrix to a raster
     refl.raster <- t(raster(band.brdf, crs = crs.proj))
     
