@@ -93,6 +93,9 @@ topo.correction <- function(hy.file, ndvi.mask, metadata.path, reflectance.path,
   # for just processing rbg images we can use: c(53,35,19)
   for (i in c(band.combo)) {
     
+    # do some updating
+    print(paste0("Processing band ", i, "!"))
+    
     # lets read in the band and clean it up like we need before
     refl.array <- h5read(file = hy.file,
                          name = reflectance.path,
@@ -131,9 +134,6 @@ topo.correction <- function(hy.file, ndvi.mask, metadata.path, reflectance.path,
     
     # update our list index
     q <- q + 1
-    
-    # do some updating
-    print(paste0("Processing band ", i, "!"))
    
   }
   
