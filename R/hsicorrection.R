@@ -399,12 +399,10 @@ hsi.correction <- function(hy.file, ndvi.mask, brightness.mask, band.combo,
     # lets make a raster
     #---------------------------------------------------------------------------------------------------
     
-    library(raster)
-    
     print(paste0("transforming band ", q, " to a raster."))
    
     # convert the matrix to a raster
-    refl.raster <- raster::t(raster(band.brdf, crs = crs.proj))
+    refl.raster <- raster(band.brdf, crs = crs.proj)
     
     # find the dimensions of our raster
     y.dim <- dim(refl.raster)[1]
