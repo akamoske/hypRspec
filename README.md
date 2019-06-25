@@ -35,11 +35,15 @@ install.packages("devtools")
 # If you alread have devtools installed or just installed it
 library(devtools)
 
-# Install canopyLazR from GitHub
+# Install hypRspec from GitHub
 install_github("akamoske/hypRspec")
 
 # Load the library
 library(hypRspec)
+
+# If you need to install the rhdf5 package this is the best way to do it
+source("http://bioconductor.org/biocLite.R")
+biocLite("rhdf5")
 ```
 
 ## Example of usage (after installation)
