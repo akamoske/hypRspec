@@ -19,4 +19,16 @@ brightness <- brightness.mask(hy.file = "D:/BRDF_TESTING/TALL_HDF5/NEON_D08_TALL
                               reflectance.path = "/TALL/Reflectance/Reflectance_Data",
                               wavelength.path = "/TALL/Reflectance/Metadata/Spectral_Data/Wavelength")
 
+# Apply the topographic correction
+topo <- topo.correction(hy.file = "D:/BRDF_TESTING/TALL_HDF5/NEON_D08_TALL_DP1_20180429_190316_reflectance.h5",
+                        ndvi.mask = ndvi,
+                        metadata.path = "/TALL/Reflectance/Reflectance_Data",
+                        reflectance.path = "/TALL/Reflectance/Reflectance_Data",
+                        wavelength.path = "/TALL/Reflectance/Metadata/Spectral_Data/Wavelength",
+                        solar.az.path = "/TALL/Reflectance/Metadata/Logs/Solar_Azimuth_Angle",
+                        solar.zn.path = "/TALL/Reflectance/Metadata/Logs/Solar_Zenith_Angle",
+                        slope.path = "/TALL/Reflectance/Metadata/Ancillary_Imagery/Slope",
+                        aspect.path = "/TALL/Reflectance/Metadata/Ancillary_Imagery/Aspect",
+                        band.combo = c(25:194, 215:284, 325:403))
+
 

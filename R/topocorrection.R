@@ -131,6 +131,9 @@ topo.correction <- function(hy.file, ndvi.mask, metadata.path, reflectance.path,
     
     # update our list index
     q <- q + 1
+    
+    # do some updating
+    print(paste0("Processing band ", i, "!"))
    
   }
   
