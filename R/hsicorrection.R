@@ -250,35 +250,35 @@ hsi.correction <- function(hy.file, ndvi.mask, brightness.mask, band.combo,
   
   # lets apply the NDVI and brightness masks to the kernals based on which kernals we want to use
   if (ross == "thick"){
+    print("Using thick ross.")
     ross.mask <- ifelse(ndvi.mask, ross.thick, NA)
     ross.mask <- ifelse(brightness.mask, ross.mask, NA)
     ross.mask.n <- ifelse(ndvi.mask, ross.thick.nad, NA)
     ross.mask.n <- ifelse(brightness.mask, ross.mask.n, NA)
-    print("Using thick ross.")
   } 
   
   if (ross == "thin"){
+    print("Using thin ross.")
     ross.mask <- ifelse(ndvi.mask, ross.thin, NA)
     ross.mask <- ifelse(brightness.mask, ross.mask, NA)
     ross.mask.n <- ifelse(ndvi.mask, ross.thin.nad, NA)
     ross.mask.n <- ifelse(brightness.mask, ross.mask.n, NA)
-    print("Using thin ross.")
   }
   
   if(li == "dense"){
+    print("Using dense li.")
     li.mask <- ifelse(ndvi.mask, li.dense, NA)
     li.mask <- ifelse(brightness.mask, li.mask, NA)
     li.mask.n <- ifelse(ndvi.mask, li.dense.nad, NA)
     li.mask.n <- ifelse(brightness.mask, li.mask.n, NA)
-    print("Using dense li.")
   }
   
   if(li == "sparse"){
+    print("Using sparse li.")
     li.mask <- ifelse(ndvi.mask, li.sparse, NA)
     li.mask <- ifelse(brightness.mask, li.mask, NA)
     li.mask.n <- ifelse(ndvi.mask, li.sparse.nad, NA)
     li.mask.n <- ifelse(brightness.mask, li.mask.n, NA)
-    print("Using sparse li.")
   }
   
   # lets transform the data into the appropriate shape for regression
