@@ -46,7 +46,7 @@
 #' @return A raster stack of topographic and brdf corrected reflectance data
 #' @export
 
-hsiCorrection <- function(hy.file, ndvi.mask, brightness.mask, band.combo, 
+hsi.correction <- function(hy.file, ndvi.mask, brightness.mask, band.combo, 
                            metadata.path, reflectance.path, wavelength.path, 
                            solar.az.path, solar.zn.path, slope.path, aspect.path,
                            sensor.az.path, sensor.zn.path, coordinate.path, ross, 
