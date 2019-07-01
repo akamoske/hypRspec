@@ -421,7 +421,7 @@ hsi.extract <- function(hy.file, ndvi.mask, brightness.mask, band.combo,
     # lets make a raster
     #---------------------------------------------------------------------------------------------------
     
-    print(paste0("transforming band ", q, " to a raster."))
+    print(paste0("extracting data from band ", q, "."))
    
     # convert the matrix to a raster
     refl.raster <- raster(band.brdf, crs = crs.proj)
