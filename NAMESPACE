@@ -2,4 +2,5 @@
 
 export(brightness.mask)
 export(hsi.correction)
+export(hsi.extract)
 export(ndvi.mask)
