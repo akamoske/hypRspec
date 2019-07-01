@@ -45,7 +45,7 @@ hsi.extract(hy.file, ndvi.mask, brightness.mask, band.combo, metadata.path,
 \item{shp.file}{shape file containing point data to extract refelctance data}
 }
 \value{
-A raster stack of topographic and brdf corrected reflectance data
+A matrix topographic and brdf corrected reflectance data
 }
 \description{
 This function first reads in a hdf5 file and applies a topographic correction based on the following paper:

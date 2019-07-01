@@ -43,7 +43,7 @@
 #' @param ross set to either "thick" or "thin" based on ross kernal needed
 #' @param li set to either "dense" or "sparse" based on ross kernal needed
 #' @param shp.file shape file containing point data to extract refelctance data
-#' @return A raster stack of topographic and brdf corrected reflectance data
+#' @return A matrix topographic and brdf corrected reflectance data
 #' @export
 
 hsi.extract <- function(hy.file, ndvi.mask, brightness.mask, band.combo, 
