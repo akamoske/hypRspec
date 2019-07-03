@@ -105,6 +105,24 @@ hsi.refl <- hsi.extract(hy.file = "D:/Tests/BRDF_TESTING/TALL_HDF5/NEON_D08_TALL
                         li = "dense",
                         shp.file.loc = "C:/PROCESSED_DATA/SHP_FILES/FOLIAR_DATA/TALL2018",
                         shp.file.name = "TALL2018_TOC_FoliarData_20190626")
+                        
+# Apply the PLSR coefficients and export a raster
+hsi.plsr <- hsi.plsr(hy.file = hsi.files[i],
+                     ndvi.mask = ndvi,
+                     brightness.mask = brightness,
+                     metadata.path = "/TALL/Reflectance/Reflectance_Data",
+                     reflectance.path = "/TALL/Reflectance/Reflectance_Data",
+                     wavelength.path = "/TALL/Reflectance/Metadata/Spectral_Data/Wavelength",
+                     solar.az.path = "/TALL/Reflectance/Metadata/Logs/Solar_Azimuth_Angle",
+                     solar.zn.path = "/TALL/Reflectance/Metadata/Logs/Solar_Zenith_Angle",
+                     slope.path = "/TALL/Reflectance/Metadata/Ancillary_Imagery/Slope",
+                     aspect.path = "/TALL/Reflectance/Metadata/Ancillary_Imagery/Aspect",
+                     sensor.az.path = "/TALL/Reflectance/Metadata/to-sensor_Azimuth_Angle",
+                     sensor.zn.path = "/TALL/Reflectance/Metadata/to-sensor_Zenith_Angle",
+                     coordinate.path = "/TALL/Reflectance/Metadata/Coordinate_System",
+                     ross = "thick",
+                     li = "dense",
+                     plsr.csv = "./PROCESSED_DATA/PLSR_TOC/leaf.N_PLSR_Coefficients_6comp.csv"))
 ```
 ## License
 
