@@ -311,8 +311,11 @@ hsi.extract <- function(hy.file, ndvi.mask, brightness.mask, band.combo,
   ext.mat[1,2] <- "Fline"
   ext.mat[1, 3:ncol(ext.mat)] <- wl.names
   
+  # make sure that the column variable is correctly named
+  colnames(toc.refl@data) <- "ID"
+  
   # set the ID variable
-  ext.mat[2:nrow(ext.mat), 1] <- as.vector(toc.refl@data$id)
+  ext.mat[2:nrow(ext.mat), 1] <- as.vector(toc.refl@data$ID)
   
   # pull out the file name
   ext.mat[2:nrow(ext.mat), 2] <- strsplit(hy.file, "_")[[1]][8]
