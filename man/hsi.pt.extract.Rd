@@ -5,7 +5,7 @@
 \title{Extract refelctance data from a topographically and brdf corrected hdf5 file containing hyperspectral imagery.}
 \usage{
 hsi.pt.extract(hy.file, band.combo, metadata.path, reflectance.path,
-  wavelength.path, shp.file.loc, shp.file.name)
+  wavelength.path, coordinate.path, shp.file.loc, shp.file.name)
 }
 \arguments{
 \item{hy.file}{hdf5 file containing hyperspectral imagery and associated metadata}

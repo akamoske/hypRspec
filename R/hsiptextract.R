@@ -36,8 +36,8 @@
 #' @export
 
 hsi.pt.extract <- function(hy.file, band.combo, 
-                           metadata.path, reflectance.path, wavelength.path, 
-                           shp.file.loc, shp.file.name){
+                           metadata.path, reflectance.path, wavelength.path,
+                           coordinate.path, shp.file.loc, shp.file.name){
   
   # lets look at the reflectance metadata
   refl.info <- h5readAttributes(hy.file, metadata.path)
