@@ -123,9 +123,12 @@ hsi.clip <- function(hy.file, band.combo,
     # set the spatial extent of the raster
     extent(refl.raster) <- raster.ext
     
+    # crop the raster down
+    rst.cr <- raster::crop(refl.raster, toc.refl)
+    
     #stack this raster
-    hsi.stack <- stack(hsi.stack, refl.raster)
-   
+    hsi.stack <- stack(hsi.stack, rst.cr)
+    
   } 
   
   return(hsi.stack)
