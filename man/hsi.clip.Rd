@@ -2,13 +2,19 @@
 % Please edit documentation in R/hsiclip.R
 \name{hsi.clip}
 \alias{hsi.clip}
-\title{Extract refelctance data from a topographically and brdf corrected hdf5 file containing hyperspectral imagery.}
+\title{Convert a hdf5 file containing hyperspectral imagery into a topographically and brdf corrected raster stack.}
 \usage{
-hsi.clip(hy.file, band.combo, metadata.path, reflectance.path,
-  wavelength.path, coordinate.path, shp.file.loc, shp.file.name)
+hsi.clip(hy.file, ndvi.mask, brightness.mask, band.combo, metadata.path,
+  reflectance.path, wavelength.path, solar.az.path, solar.zn.path,
+  slope.path, aspect.path, sensor.az.path, sensor.zn.path, coordinate.path,
+  ross, li, raster.res, shp.file.loc, shp.file.name)
 }
 \arguments{
 \item{hy.file}{hdf5 file containing hyperspectral imagery and associated metadata}
+
+\item{ndvi.mask}{NDVI mask created with the ndvi.mask function}
+
+\item{brightness.mask}{brightness mask created with the brightness.mask function}
 
 \item{band.combo}{index of bands that will be processed}
 
@@ -18,10 +24,28 @@ hsi.clip(hy.file, band.combo, metadata.path, reflectance.path,
 
 \item{wavelength.path}{hdf5 path to wavelength metadata}
 
-\item{shp.file}{shape file containing point data to extract refelctance data}
+\item{solar.az.path}{hdf5 path to solar azimuth data}
+
+\item{solar.zn.path}{hdf5 path to solar zenith data}
+
+\item{slope.path}{hdf5 path to slope data}
+
+\item{aspect.path}{hdf5 path to aspect data}
+
+\item{sensor.az.path}{hdf5 path to sensor azimuth data}
+
+\item{sensor.zn.path}{hdf5 path to sensor zenith data}
+
+\item{coordinate.path}{hdf5 path to coordinate data}
+
+\item{ross}{set to either "thick" or "thin" based on ross kernal needed}
+
+\item{li}{set to either "dense" or "sparse" based on ross kernal needed}
+
+\item{raster.res}{resolution of output raster}
 }
 \value{
-A matrix topographic and brdf corrected reflectance data
+A raster stack of topographic and brdf corrected reflectance data
 }
 \description{
 This function first reads in a hdf5 file and applies a topographic correction based on the following paper:
@@ -49,5 +73,5 @@ Weyermann, J., Kneubuhler, M., Schlapfer, D., and Schaepman, M.E., 2015. Minimiz
 Effects in Airborne Spectroscopy Data Using Ross-Li Model Inversion With Continuous Field Land Cover Stratification. 
 IEEE Transactions on Geoscience and Remote Sensing, 53(11): 5814-5823.
 
-Last, refelctance data is extracted from this topographic and brdf corrected imagery
+Last, this topographic and brdf corrected imagery is converted to a raster stack
 }
