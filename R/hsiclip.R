@@ -87,8 +87,6 @@ hsi.clip <- function(hy.file, band.combo,
   # for just processing rbg images we can use: c(53,35,19)
   for (q in band.combo) {
     
-    print(paste0("applying topographic correction to band ", q, "."))
-    
     # lets read in the band and clean it up like we need before
     refl.array <- h5read(file = hy.file,
                          name = reflectance.path,
@@ -101,7 +99,7 @@ hsi.clip <- function(hy.file, band.combo,
     # lets make a raster
     #---------------------------------------------------------------------------------------------------
     
-    print(paste0("extracting data from band ", q, "."))
+    print(paste0("clipping data from band ", q, "."))
     
     # convert the matrix to a raster
     refl.raster <- raster(refl.matrix, crs = crs.proj)
