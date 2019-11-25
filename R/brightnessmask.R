@@ -3,7 +3,7 @@
 #' This function reads in a hdf5 file and create a brightness matrix to remove shaded pixels for use in the 
 #' BRDF correction that is applied in later steps.
 #' 
-#' For theory behind this function please see:
+#' This is a modified version of the methodology described in these manuscripts:
 #' 
 #' Clark, M.L., Roberts, D.A., and Clark, D.B., 2005. Hyperspectral discrimination of tropical rain forest
 #' tree species at crown scales. Remote Sensing of Environment, 96: 375-398.
@@ -51,11 +51,17 @@ brightness.mask <- function(hy.file, metadata.path, reflectance.path, wavelength
   nir.800.mat <- nir.800.matrix / scale.fact.val
   
   # lets calculate the mean reflectance value for this matrix
-  nir.800.mean <- mean(nir.800.mat, na.rm = TRUE)
+  r.quantiles <- quantile(nir.800.mat, probs = seq(0,1,0.25), na.rm = TRUE)
   
-  # lets make a mask where reflectance < the mean = 0
-  nir.800.mat[nir.800.mat < nir.800.mean] <- 0
-  nir.800.mat[nir.800.mat >= nir.800.mean] <- 1
+  r.25 <- r.quantiles[[2]]
+  r.75 <- r.quantiles[[4]]
+  r.iqr <- r.75 - r.25
+  
+  r.bottom.cut <- ceiling(r.25 - (1.5 * r.iqr))
+  
+  # lets make a mask where reflectance < outliers = 0
+  nir.800.mat[nir.800.mat < r.bottom.cut] <- 0
+  nir.800.mat[nir.800.mat >= r.bottom.cut] <- 1
   
   # return the array
   return(nir.800.mat)
