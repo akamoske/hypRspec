@@ -23,7 +23,7 @@ This function reads in a hdf5 file and create a brightness matrix to remove shad
 BRDF correction that is applied in later steps.
 }
 \details{
-For theory behind this function please see:
+This is a modified version of the methodology described in these manuscripts:
 
 Clark, M.L., Roberts, D.A., and Clark, D.B., 2005. Hyperspectral discrimination of tropical rain forest
 tree species at crown scales. Remote Sensing of Environment, 96: 375-398.

@@ -318,7 +318,9 @@ hsi.extract <- function(hy.file, ndvi.mask, brightness.mask, band.combo,
   ext.mat[2:nrow(ext.mat), 1] <- as.vector(toc.refl@data$ID)
   
   # pull out the file name
-  ext.mat[2:nrow(ext.mat), 2] <- strsplit(hy.file, "_")[[1]][8]
+  clean.name <- tools::file_path_sans_ext(hy.file)
+  clean.name <- strsplit(clean.name, "/")[[1]][4]
+  ext.mat[2:nrow(ext.mat), 2] <- strsplit(clean.name, "_")[[1]][6]
   
   # set the index for the matrix column
   r <- 3 
