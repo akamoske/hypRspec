@@ -353,6 +353,11 @@ hsi.extract <- function(hy.file, ndvi.mask, brightness.mask, band.combo,
     refl.matrix[refl.matrix == data.ignore.val] <- NA
     refl.matrix <- refl.matrix / scale.fact.val
     
+    # memory clean up
+    gc()
+    rm(refl.array)
+    gc()
+    
     # lets apply the masks to this band
     refl.matrix <- ifelse(ndvi.mask, refl.matrix, NA)
     
@@ -384,6 +389,8 @@ hsi.extract <- function(hy.file, ndvi.mask, brightness.mask, band.combo,
     
     gc()
     rm(topo.lm)
+    rm(refl.matrix)
+    rm(cor.fact)
     gc()
     
     #---------------------------------------------------------------------------------------------------
@@ -419,6 +426,9 @@ hsi.extract <- function(hy.file, ndvi.mask, brightness.mask, band.combo,
     #---------------------------------------------------------------------------------------------------
     
     gc()
+    rm(topo.matrix)
+    rm(brdf.cor)
+    rm(topo.cor)
     rm(brdf.lm)
     gc()
     
