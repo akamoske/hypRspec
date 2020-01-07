@@ -337,6 +337,26 @@ hsi.extract <- function(hy.file, ndvi.mask, brightness.mask, band.combo,
   x.min <- as.numeric(map.info[[1]][4])
   y.max <- as.numeric(map.info[[1]][5])
   
+  # memory clean up
+  gc()
+  rm(aspect)
+  rm(brightness)
+  rm(cosine.i)
+  rm(li)
+  rm(li.dense)
+  rm(li.dense.nad)
+  rm(li.sparse)
+  rm(li.sparse.nad)
+  rm(ndvi)
+  rm(rel.az)
+  rm(ross)
+  rm(ross.thick)
+  rm(ross.thick.nad)
+  rm(ross.thin)
+  rm(ross.thin.nad)
+  rm(slope)
+  gc()
+  
   # first lets calculate the coefficients we will apply to all the images
   # if we are processing the entire image then we will remove the noisy bands
   # we can run this instead: c(25:194, 215:284, 325:403)
@@ -408,6 +428,11 @@ hsi.extract <- function(hy.file, ndvi.mask, brightness.mask, band.combo,
     # lets run the regression now
     brdf.lm <- lm(y ~ x.brdf)
     
+    # memory management
+    gc()
+    rm(y)
+    gc()
+    
     # lets save the coefficients
     brdf.coef <- brdf.lm$coefficients
     
@@ -427,6 +452,8 @@ hsi.extract <- function(hy.file, ndvi.mask, brightness.mask, band.combo,
     
     gc()
     rm(topo.matrix)
+    rm(brdf)
+    rm(brdf.nad)
     rm(brdf.cor)
     rm(topo.cor)
     rm(brdf.lm)
@@ -475,6 +502,7 @@ hsi.extract <- function(hy.file, ndvi.mask, brightness.mask, band.combo,
     
     gc()
     rm(refl.raster)
+    rm(band.brdf)
     gc()
     
   } 
