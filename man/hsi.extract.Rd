@@ -73,5 +73,5 @@ Weyermann, J., Kneubuhler, M., Schlapfer, D., and Schaepman, M.E., 2015. Minimiz
 Effects in Airborne Spectroscopy Data Using Ross-Li Model Inversion With Continuous Field Land Cover Stratification. 
 IEEE Transactions on Geoscience and Remote Sensing, 53(11): 5814-5823.
 
-Last, refelctance data is extracted from this topographic and brdf corrected imagery
+Last, refelctance data is extracted from topographic and brdf corrected imagery
 }

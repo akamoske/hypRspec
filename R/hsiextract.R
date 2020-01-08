@@ -24,7 +24,7 @@
 #' Effects in Airborne Spectroscopy Data Using Ross-Li Model Inversion With Continuous Field Land Cover Stratification. 
 #' IEEE Transactions on Geoscience and Remote Sensing, 53(11): 5814-5823.
 #' 
-#' Last, refelctance data is extracted from this topographic and brdf corrected imagery
+#' Last, refelctance data is extracted from topographic and brdf corrected imagery
 #'
 #' @param hy.file hdf5 file containing hyperspectral imagery and associated metadata
 #' @param ndvi.mask NDVI mask created with the ndvi.mask function
