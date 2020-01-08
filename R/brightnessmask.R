@@ -57,7 +57,7 @@ brightness.mask <- function(hy.file, metadata.path, reflectance.path, wavelength
   r.75 <- r.quantiles[[4]]
   r.iqr <- r.75 - r.25
   
-  r.bottom.cut <- ceiling(r.25 - (1.5 * r.iqr))
+  r.bottom.cut <- r.25 - (1.5 * r.iqr)
   
   # lets make a mask where reflectance < outliers = 0
   nir.800.mat[nir.800.mat < r.bottom.cut] <- 0
