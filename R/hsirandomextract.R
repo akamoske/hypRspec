@@ -348,6 +348,9 @@ hsi.random.extract <- function(hy.file, ndvi.mask, brightness.mask, band.combo,
   rm(slope)
   gc()
   
+  # start a new count
+  w <- 1
+  
   # first lets calculate the coefficients we will apply to all the images
   # if we are processing the entire image then we will remove the noisy bands
   # we can run this instead: c(25:194, 215:284, 325:403)
@@ -476,11 +479,27 @@ hsi.random.extract <- function(hy.file, ndvi.mask, brightness.mask, band.combo,
     # set the spatial extent of the raster
     extent(refl.raster) <- raster.ext
     
-    # lets extract the reflectance data
-    ref.toc <- sampleRandom(refl.raster, size = number.pts, na.rm = TRUE)
+    # the first time we need to create the random spatial dataframe to extract data from in subsequent loops
+    if (w == 1){
+      # lets extract the reflectance data
+      ref.toc <- sampleRandom(refl.raster, size = number.pts, na.rm = TRUE, sp = TRUE)
+      
+      # now we want to save the extracted data
+      ref.data <- ref.toc@data
+      
+      # lets add this into the right part of the matrix
+      ext.mat[2:nrow(ext.mat), r] <- as.vector(ref.data$layer)
+    }
+    
+    else {
+      # extract the reflectance data with the above spatial points dataframe
+      ref.extract <- raster::extract(refl.raster, ref.toc)
+      
+      # lets add this into the right part of the matrix
+      ext.mat[2:nrow(ext.mat), r] <- ref.extract
+    }
+    
    
-    # lets add this into the right part of the matrix
-    ext.mat[2:nrow(ext.mat), r] <- ref.toc
     
     # set the matrix index
     r <- r + 1
@@ -493,6 +512,9 @@ hsi.random.extract <- function(hy.file, ndvi.mask, brightness.mask, band.combo,
     rm(refl.raster)
     rm(band.brdf)
     gc()
+    
+    # update the count
+    w <- w + 1
     
   } 
   
