@@ -481,6 +481,7 @@ hsi.random.extract <- function(hy.file, ndvi.mask, brightness.mask, band.combo,
     
     # the first time we need to create the random spatial dataframe to extract data from in subsequent loops
     if (w == 1){
+      
       # lets extract the reflectance data
       ref.toc <- sampleRandom(refl.raster, size = number.pts, na.rm = TRUE, sp = TRUE)
       
@@ -492,11 +493,15 @@ hsi.random.extract <- function(hy.file, ndvi.mask, brightness.mask, band.combo,
     }
     
     else {
+      
       # extract the reflectance data with the above spatial points dataframe
-      ref.extract <- raster::extract(refl.raster, ref.toc)
+      ref.toc@data[,w] <- raster::extract(refl.raster, ref.toc, method = "simple")
+      
+      # now we want to save the extracted data
+      ref.data <- ref.toc@data[,w]
       
       # lets add this into the right part of the matrix
-      ext.mat[2:nrow(ext.mat), r] <- ref.extract
+      ext.mat[2:nrow(ext.mat), r] <- as.vector(ref.data)
     }
     
     # set the matrix index
