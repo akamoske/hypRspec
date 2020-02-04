@@ -499,8 +499,6 @@ hsi.random.extract <- function(hy.file, ndvi.mask, brightness.mask, band.combo,
       ext.mat[2:nrow(ext.mat), r] <- ref.extract
     }
     
-   
-    
     # set the matrix index
     r <- r + 1
     
