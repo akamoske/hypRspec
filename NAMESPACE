@@ -2,6 +2,7 @@
 
 export(brightness.mask)
 export(hsi.clip)
+export(hsi.correct.write)
 export(hsi.correction)
 export(hsi.extract)
 export(hsi.plsr)
