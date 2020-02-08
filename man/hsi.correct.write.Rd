@@ -2,7 +2,7 @@
 % Please edit documentation in R/hsicorrectwrite.R
 \name{hsi.correct.write}
 \alias{hsi.correct.write}
-\title{Topographically and brdf correct a hdf5 file containing hyperspectral imagery and then write this data to a new hdf5 file.}
+\title{---------------------------------------------------------------------------------------------------}
 \usage{
 hsi.correct.write(hy.file, ndvi.mask, brightness.mask, metadata.path,
   reflectance.path, wavelength.path, solar.az.path, solar.zn.path,
@@ -44,9 +44,22 @@ hsi.correct.write(hy.file, ndvi.mask, brightness.mask, metadata.path,
 A matrix topographic and brdf corrected reflectance data
 }
 \description{
-This function first reads in a hdf5 file and applies a topographic correction based on the following paper:
+WARNING, WARNING, WARNING!!!!!!!
 }
 \details{
+THIS FUNCTION WILL OVERWRITE THE DATA THAT IS USED AS AN INPUT!!!!!!!!!!!
+
+TO AVOID LOSING YOUR ORIGINAL DATA, MAKE SURE TO COPY THE ORIGINAL FILES TO ANOTHER LOCATION
+BEFORE RUNNING THIS FUNCTION!!!!!!!!!
+
+WE ARE NOT RESPONSIBLE FOR ANY LOST DATA FROM THE USE OF THIS FUNCTION.
+
+---------------------------------------------------------------------------------------------------
+
+Topographically and brdf correct a hdf5 file containing hyperspectral imagery and then write this data to a new hdf5 file.
+
+This function first reads in a hdf5 file and applies a topographic correction based on the following paper:
+
 Soenen, S.A., Peddle, D.R., and Coburn, C.A., 2005. SCS+C: A Modified Sun-Canopy-Sensor Topographic Correction 
 in Forested Terrain. IEEE Transactions on Geoscience and Remote Sensing, 43(9): 2148-2159.
 

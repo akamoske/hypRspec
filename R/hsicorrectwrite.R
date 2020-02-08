@@ -1,3 +1,16 @@
+#' ---------------------------------------------------------------------------------------------------
+#' 
+#' WARNING, WARNING, WARNING!!!!!!!
+#' 
+#' THIS FUNCTION WILL OVERWRITE THE DATA THAT IS USED AS AN INPUT!!!!!!!!!!!
+#' 
+#' TO AVOID LOSING YOUR ORIGINAL DATA, MAKE SURE TO COPY THE ORIGINAL FILES TO ANOTHER LOCATION
+#' BEFORE RUNNING THIS FUNCTION!!!!!!!!!
+#' 
+#' WE ARE NOT RESPONSIBLE FOR ANY LOST DATA FROM THE USE OF THIS FUNCTION.
+#'
+#' ---------------------------------------------------------------------------------------------------
+#' 
 #' Topographically and brdf correct a hdf5 file containing hyperspectral imagery and then write this data to a new hdf5 file.
 #'
 #' This function first reads in a hdf5 file and applies a topographic correction based on the following paper:
