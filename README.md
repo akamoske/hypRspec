@@ -6,7 +6,7 @@ R package to process airborne hyperspectral imagery.
 
 For theory behind the functions in this package please see the citations in the individual scripts. 
 
-For a python version of these functions, please see [HyTools.](https://github.com/EnSpec/HyTools-sandbox)   
+For a package that performs similar functions in python, please see [HyTools.](https://github.com/EnSpec/HyTools-sandbox)  
 
 # WARNING!!!!!!
 
