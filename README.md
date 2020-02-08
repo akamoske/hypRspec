@@ -8,6 +8,15 @@ For theory behind the functions in this package please see the citations in the 
 
 For a python version of these functions, please see [HyTools.](https://github.com/EnSpec/HyTools-sandbox)   
 
+# WARNING!!!!!!
+
+The hsi.correct.write() function will overwrite the data that is used an input!
+
+To avoid losing your original data, make sure to copy the original files to another location
+before running this function.
+
+The authors are not responsible for any lost data from the use of this function.
+
 ### Corresponding Author
 
 Aaron G. Kamoske, PhD Candidate
