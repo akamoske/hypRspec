@@ -2,76 +2,27 @@
 % Please edit documentation in R/hsirandomextract.R
 \name{hsi.random.extract}
 \alias{hsi.random.extract}
-\title{Extract refelctance data from a topographically and brdf corrected hdf5 file containing hyperspectral imagery.}
+\title{Extract refelctance data from a set of random points from a topographically and brdf corrected hdf5 file
+containing hyperspectral imagery.}
 \usage{
-hsi.random.extract(hy.file, ndvi.mask, brightness.mask, band.combo,
-  metadata.path, reflectance.path, wavelength.path, solar.az.path,
-  solar.zn.path, slope.path, aspect.path, sensor.az.path, sensor.zn.path,
-  coordinate.path, ross, li, number.pts)
+hsi.random.extract(hy.file, coordinate.path, wavelength.path, band.combo,
+  number.pts)
 }
 \arguments{
-\item{hy.file}{hdf5 file containing hyperspectral imagery and associated metadata}
+\item{hy.file}{hdf5 file containing corrected hyperspectral imagery}
 
-\item{ndvi.mask}{NDVI mask created with the ndvi.mask function}
+\item{coordinate.path}{hdf5 path to the coordinate information}
 
-\item{brightness.mask}{brightness mask created with the brightness.mask function}
+\item{wavelength.path}{hdf5 path to the wavelength information}
 
-\item{band.combo}{index of bands that will be processed}
+\item{band.combo}{combination of wavelengths you want to extract data from}
 
-\item{metadata.path}{hdf5 path to reflectance metadata}
-
-\item{reflectance.path}{hdf5 path to reflectance data}
-
-\item{wavelength.path}{hdf5 path to wavelength metadata}
-
-\item{solar.az.path}{hdf5 path to solar azimuth data}
-
-\item{solar.zn.path}{hdf5 path to solar zenith data}
-
-\item{slope.path}{hdf5 path to slope data}
-
-\item{aspect.path}{hdf5 path to aspect data}
-
-\item{sensor.az.path}{hdf5 path to sensor azimuth data}
-
-\item{sensor.zn.path}{hdf5 path to sensor zenith data}
-
-\item{coordinate.path}{hdf5 path to coordinate data}
-
-\item{ross}{set to either "thick" or "thin" based on ross kernal needed}
-
-\item{li}{set to either "dense" or "sparse" based on ross kernal needed}
-
-\item{number.pts}{number of pixels you want to randomly extract}
+\item{number.pts}{number of random points you want to extract from the file}
 }
 \value{
 A matrix topographic and brdf corrected reflectance data
 }
 \description{
-This function first reads in a hdf5 file and applies a topographic correction based on the following paper:
-}
-\details{
-Soenen, S.A., Peddle, D.R., and Coburn, C.A., 2005. SCS+C: A Modified Sun-Canopy-Sensor Topographic Correction 
-in Forested Terrain. IEEE Transactions on Geoscience and Remote Sensing, 43(9): 2148-2159.
-
-Next a brdf correction is applied based on the following papers:
-
-Colgan, M.S., Baldeck, C.A., Feret, J.B., and Asner, G.P., 2012. Mapping savanna tree species at ecosystem scales 
-using support vector machine classification and BRDF correction on airborne hyperspectral and LiDAR data.
-Remote Sensing, 4(11): 3462-3480.
-
-Collings, S., Caccetta, P., Campbell, N., and Wu, X., 2010. Techniques for BRDF correction of hyperspectral mosaics. 
-IEEE Transactions on Geoscience and Remote Sensing, 48(10): 3733-3746.
-
-Schlapfer, D., Richter, R., and Feingersh, T., 2015. Operational BRDF effects correction for wide-field-of-view 
-optical scanners (BREFCOR). IEEE Transactions on Geoscience and Remote Sensing, 53(4): 1855-1864.
-
-Wanner, W., Li, X., and Strahler, A.H., 1995. On the derivation of kernels for kernel-driven models of 
-bidirectional reflectance. Journal of Geophysical Research: Atmospheres, 100(D10): 21077-21089.
-
-Weyermann, J., Kneubuhler, M., Schlapfer, D., and Schaepman, M.E., 2015. Minimizing Reflectance Anisotropy 
-Effects in Airborne Spectroscopy Data Using Ross-Li Model Inversion With Continuous Field Land Cover Stratification. 
-IEEE Transactions on Geoscience and Remote Sensing, 53(11): 5814-5823.
-
-Last, refelctance data is extracted from topographic and brdf corrected imagery
+Extract refelctance data from a set of random points from a topographically and brdf corrected hdf5 file
+containing hyperspectral imagery.
 }
