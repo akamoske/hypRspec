@@ -78,6 +78,7 @@ brightness <- brightness.mask(hy.file = "D:/BRDF_TESTING/TALL_HDF5/NEON_D08_TALL
 
 # WARNING!!!
 # THIS FUNCTION OVERWRITES THE INPUT FILE - PLEASE COPY THE ORIGINAL DATA BEFORE RUNNING THIS!!!
+
 # Apply the corrections and OVERWRITE the hdf5 file
 hsi.raster <- hsi.correct.write(hy.file = "D:/BRDF_TESTING/TALL_HDF5/NEON_D08_TALL_DP1_20180429_190316_reflectance.h5",
                                 ndvi.mask = ndvi,
