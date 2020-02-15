@@ -97,11 +97,13 @@ hsi.raster <- hsi.correct.write(hy.file = "D:/BRDF_TESTING/TALL_HDF5/NEON_D08_TA
                                 li = "dense")
                              
 # extract reflectance data with a set of random points from the corrected HSI hdf5 file
-hsi.refl.pts <- hsi.random.extract(hy.file = "D:/BRDF_TESTING/TALL_HDF5/NEON_D08_TALL_DP1_20180429_190316_reflectance.h5",
-                                   coordinate.path = "/TALL/Reflectance/Metadata/Coordinate_System", 
-                                   wavelength.path = "/TALL/Reflectance/Metadata/Spectral_Data/Wavelength",
-                                   band.combo = c(25:194, 215:284, 325:403), 
-                                   number.pts = 1000)
+hsi.refl.points <- hsi.random.extract("D:/BRDF_TESTING/TALL_HDF5/NEON_D08_TALL_DP1_20180429_190316_reflectance.h5", 
+                                      metadata.path = "/TALL/Reflectance/Reflectance_Data",
+                                      coordinate.path = "/TALL/Reflectance/Metadata/Coordinate_System",
+                                      wavelength.path = "/TALL/Reflectance/Metadata/Spectral_Data/Wavelength",
+                                      reflectance.path = "/TALL/Reflectance/Reflectance_Data",
+                                      band.combo = c(25:194, 215:284, 325:403),
+                                      number.pts = 370)
                           
                              
 

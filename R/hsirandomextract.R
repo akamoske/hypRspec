@@ -2,6 +2,8 @@
 #' containing hyperspectral imagery.
 #'
 #' @param hy.file hdf5 file containing corrected hyperspectral imagery
+#' @param metadata.path hdf5 path to the metadata
+#' @param reflectance.path hdf5 path to the reflectance data
 #' @param coordinate.path hdf5 path to the coordinate information
 #' @param wavelength.path hdf5 path to the wavelength information
 #' @param band.combo combination of wavelengths you want to extract data from
@@ -9,7 +11,8 @@
 #' @return A matrix topographic and brdf corrected reflectance data
 #' @export
 
-hsi.random.extract <- function(hy.file, coordinate.path, wavelength.path, band.combo, number.pts){
+hsi.random.extract <- function(hy.file, metadata.path, reflectance.path, 
+                               coordinate.path, wavelength.path, band.combo, number.pts){
   
   # lets look at the reflectance metadata
   refl.info <- h5readAttributes(hy.file, metadata.path)
@@ -30,6 +33,11 @@ hsi.random.extract <- function(hy.file, coordinate.path, wavelength.path, band.c
   # read in the coordinate infomation
   map.info <- h5read(file = hy.file,
                      name = coordinate.path)
+  
+  # pull out the map extent info
+  map.inform <- strsplit(map.info$Map_Info, split = ",", fixed = TRUE)
+  x.min <- as.numeric(map.inform[[1]][4])
+  y.max <- as.numeric(map.inform[[1]][5])
   
   # save the crs projection data
   crs.proj <- base::paste0("+init=epsg:", map.info$`EPSG Code`)
@@ -55,7 +63,7 @@ hsi.random.extract <- function(hy.file, coordinate.path, wavelength.path, band.c
   # pull out the file name
   clean.name <- tools::file_path_sans_ext(hy.file)
   clean.name <- strsplit(clean.name, "/")[[1]][4]
-  ext.mat[2:nrow(ext.mat), 2] <- strsplit(clean.name, "_")[[1]][6]
+  ext.mat[2:nrow(ext.mat), 2] <- strsplit(clean.name, "_")[[1]][3]
   
   # set the index for the matrix column
   r <- 3 
@@ -83,12 +91,6 @@ hsi.random.extract <- function(hy.file, coordinate.path, wavelength.path, band.c
     rm(refl.array)
     gc()
     
-    # lets apply the masks to this band
-    refl.matrix <- ifelse(ndvi.mask, refl.matrix, NA)
-    
-    # lets apply the brightness mask to this topo corrected band
-    topo.matrix <- ifelse(brightness.mask, refl.matrix, NA)
-    
     #---------------------------------------------------------------------------------------------------
     # lets make a raster
     #---------------------------------------------------------------------------------------------------
@@ -96,7 +98,7 @@ hsi.random.extract <- function(hy.file, coordinate.path, wavelength.path, band.c
     print(paste0("extracting data from band ", q, "."))
     
     # convert the matrix to a raster
-    refl.raster <- raster(topo.matrix, crs = crs.proj)
+    refl.raster <- raster(refl.matrix, crs = crs.proj)
     
     # we need to transpose the raster
     refl.raster <- raster::t(refl.raster)

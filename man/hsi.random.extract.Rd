@@ -5,11 +5,15 @@
 \title{Extract refelctance data from a set of random points from a topographically and brdf corrected hdf5 file
 containing hyperspectral imagery.}
 \usage{
-hsi.random.extract(hy.file, coordinate.path, wavelength.path, band.combo,
-  number.pts)
+hsi.random.extract(hy.file, metadata.path, reflectance.path,
+  coordinate.path, wavelength.path, band.combo, number.pts)
 }
 \arguments{
 \item{hy.file}{hdf5 file containing corrected hyperspectral imagery}
+
+\item{metadata.path}{hdf5 path to the metadata}
+
+\item{reflectance.path}{hdf5 path to the reflectance data}
 
 \item{coordinate.path}{hdf5 path to the coordinate information}
 
