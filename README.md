@@ -104,6 +104,15 @@ hsi.refl.points <- hsi.random.extract("D:/BRDF_TESTING/TALL_HDF5/NEON_D08_TALL_D
                                       reflectance.path = "/TALL/Reflectance/Reflectance_Data",
                                       band.combo = c(25:194, 215:284, 325:403),
                                       number.pts = 370)
+                                      
+# apply coefficients from a PCA or PLSR to the corrected HSI data and export a raster
+hsi.coef.rst <- hsi.coef("D:/BRDF_TESTING/TALL_HDF5/NEON_D08_TALL_DP1_20180429_190316_reflectance.h5", 
+                         metadata.path = "/TALL/Reflectance/Reflectance_Data",
+                         coordinate.path = "/TALL/Reflectance/Metadata/Coordinate_System",
+                         wavelength.path = "/TALL/Reflectance/Metadata/Spectral_Data/Wavelength",
+                         reflectance.path = "/TALL/Reflectance/Reflectance_Data",
+                         coef.csv = "./pc1_coef.csv",
+                         inter = FALSE)
                           
                              
 
