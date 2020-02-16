@@ -68,8 +68,6 @@ hsi.coef <- function(hy.file, metadata.path, reflectance.path, wavelength.path,
     # for just processing rbg images we can use: c(53,35,19)
     for (q in plsr.index) {
       
-      print(paste0("applying topographic correction to band ", q, "."))
-      
       # lets read in the band and clean it up like we need before
       refl.array <- h5read(file = hy.file,
                            name = reflectance.path,
@@ -152,8 +150,6 @@ hsi.coef <- function(hy.file, metadata.path, reflectance.path, wavelength.path,
     # we can run this instead: c(25:194, 215:284, 325:403)
     # for just processing rbg images we can use: c(53,35,19)
     for (q in plsr.index) {
-      
-      print(paste0("applying topographic correction to band ", q, "."))
       
       # lets read in the band and clean it up like we need before
       refl.array <- h5read(file = hy.file,
