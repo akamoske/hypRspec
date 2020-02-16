@@ -85,7 +85,7 @@ hsi.coef <- function(hy.file, metadata.path, reflectance.path, wavelength.path,
       # find the coef
       wl.coef <- plsr.coef[plsr.coef$X == rst.wl,][,2]
       
-      print(paste0("applying PLSR coefficient to ", plsr.coef[plsr.coef$X == rst.wl,][,1] ,"nm."))
+      print(paste0("applying coefficient to ", plsr.coef[plsr.coef$X == rst.wl,][,1] ,"nm."))
       
       # apply the coefficient
       if (scale.data == TRUE) {
@@ -173,7 +173,7 @@ hsi.coef <- function(hy.file, metadata.path, reflectance.path, wavelength.path,
       # find the coef
       wl.coef <- plsr.coef[plsr.coef$X == rst.wl,][,2]
       
-      print(paste0("applying PLSR coefficient to ", plsr.coef[plsr.coef$X == rst.wl,][,1] ,"nm."))
+      print(paste0("applying coefficient to ", plsr.coef[plsr.coef$X == rst.wl,][,1] ,"nm."))
       
       # apply the coefficient
       if (scale.data == TRUE) {
