@@ -89,7 +89,7 @@ hsi.coef <- function(hy.file, metadata.path, reflectance.path, wavelength.path,
       
       # apply the coefficient
       if (scale.data == TRUE) {
-        plsr.matrix <- raster::scale(refl.matrix) * wl.coef
+        plsr.matrix <- raster::scale(refl.matrix, center = TRUE, scale = FALSE) * wl.coef
       }
       if (scale.data == FALSE) {
         plsr.matrix <- refl.matrix * wl.coef
@@ -177,7 +177,7 @@ hsi.coef <- function(hy.file, metadata.path, reflectance.path, wavelength.path,
       
       # apply the coefficient
       if (scale.data == TRUE) {
-        plsr.matrix <- raster::scale(refl.matrix) * wl.coef
+        plsr.matrix <- raster::scale(refl.matrix, center = TRUE, scale = FALSE) * wl.coef
       }
       if (scale.data == FALSE) {
         plsr.matrix <- refl.matrix * wl.coef
