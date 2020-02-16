@@ -8,11 +8,12 @@
 #' @param coordinate.path hdf5 path to coordinate data
 #' @param coef.csv csv containing coefficients
 #' @param inter does the CSV contain an intercept and is it in the first position (TRUE/FALSE)
+#' @param scale.data were the coefficients generated with scaled data and thus data needs to be scaled before applied coefs (TRUE/FALSE)
 #' @return A raster with all coefficients applied
 #' @export
 
 hsi.coef <- function(hy.file, metadata.path, reflectance.path, wavelength.path, 
-                     coordinate.path, coef.csv, inter){
+                     coordinate.path, coef.csv, inter, scale.data){
   
   # lets look at the reflectance metadata
   refl.info <- h5readAttributes(hy.file, metadata.path)
@@ -87,7 +88,12 @@ hsi.coef <- function(hy.file, metadata.path, reflectance.path, wavelength.path,
       print(paste0("applying PLSR coefficient to ", plsr.coef[plsr.coef$X == rst.wl,][,1] ,"nm."))
       
       # apply the coefficient
-      plsr.matrix <- refl.matrix * wl.coef
+      if (scale.data == TRUE) {
+        plsr.matrix <- raster::scale(refl.matrix) * wl.coef
+      }
+      if (scale.data == FALSE) {
+        plsr.matrix <- refl.matrix * wl.coef
+      }
       
       if (s == 1){
         # stack this raster
@@ -170,7 +176,12 @@ hsi.coef <- function(hy.file, metadata.path, reflectance.path, wavelength.path,
       print(paste0("applying PLSR coefficient to ", plsr.coef[plsr.coef$X == rst.wl,][,1] ,"nm."))
       
       # apply the coefficient
-      plsr.matrix <- refl.matrix * wl.coef
+      if (scale.data == TRUE) {
+        plsr.matrix <- raster::scale(refl.matrix) * wl.coef
+      }
+      if (scale.data == FALSE) {
+        plsr.matrix <- refl.matrix * wl.coef
+      }
       
       if (s == 1){
         # stack this raster

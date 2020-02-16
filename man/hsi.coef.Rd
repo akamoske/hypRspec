@@ -6,7 +6,7 @@
 Coefficients may be from a PLSR, PCA, etc. Output is a raster file of same spatial resolution as input.}
 \usage{
 hsi.coef(hy.file, metadata.path, reflectance.path, wavelength.path,
-  coordinate.path, coef.csv, inter)
+  coordinate.path, coef.csv, inter, scale.data)
 }
 \arguments{
 \item{hy.file}{hdf5 file containing hyperspectral imagery and associated metadata}
@@ -22,6 +22,8 @@ hsi.coef(hy.file, metadata.path, reflectance.path, wavelength.path,
 \item{coef.csv}{csv containing coefficients}
 
 \item{inter}{does the CSV contain an intercept and is it in the first position (TRUE/FALSE)}
+
+\item{scale.data}{were the coefficients generated with scaled data and thus data needs to be scaled before applied coefs (TRUE/FALSE)}
 }
 \value{
 A raster with all coefficients applied
