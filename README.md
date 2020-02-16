@@ -112,7 +112,8 @@ hsi.coef.rst <- hsi.coef("D:/BRDF_TESTING/TALL_HDF5/NEON_D08_TALL_DP1_20180429_1
                          wavelength.path = "/TALL/Reflectance/Metadata/Spectral_Data/Wavelength",
                          reflectance.path = "/TALL/Reflectance/Reflectance_Data",
                          coef.csv = "./pc1_coef.csv",
-                         inter = FALSE)
+                         inter = FALSE,
+                         scale.data = TRUE)
                           
                              
 
