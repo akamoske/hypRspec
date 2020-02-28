@@ -64,7 +64,7 @@ hsi.shp.extract <- function(hy.file, metadata.path, reflectance.path,
   ext.mat[1, 3:ncol(ext.mat)] <- wl.names
   
   # set the ID variable
-  ext.mat[2:nrow(ext.mat), 1] <- as.vector(1:toc.refl@data$ID
+  ext.mat[2:nrow(ext.mat), 1] <- as.vector(1:toc.refl@data$ID)
   
   # pull out the file name
   name.c <- tools::file_path_sans_ext(hy.file)
