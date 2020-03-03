@@ -9,11 +9,12 @@
 #' @param coef.csv csv containing coefficients
 #' @param inter does the CSV contain an intercept and is it in the first position (TRUE/FALSE)
 #' @param scale.data were the coefficients generated with scaled data and thus data needs to be scaled before applied coefs (TRUE/FALSE)
+#' @param band.combo combination of bands index values that were used to generate the coefficients
 #' @return A raster with all coefficients applied
 #' @export
 
 hsi.coef <- function(hy.file, metadata.path, reflectance.path, wavelength.path, 
-                     coordinate.path, coef.csv, inter, scale.data){
+                     coordinate.path, coef.csv, inter, scale.data, band.combo){
   
   # lets look at the reflectance metadata
   refl.info <- h5readAttributes(hy.file, metadata.path)
@@ -54,12 +55,6 @@ hsi.coef <- function(hy.file, metadata.path, reflectance.path, wavelength.path,
     # save just the coefficients
     plsr.coef <- plsr.coef[2:nrow(plsr.coef),]
     
-    # remove the NM in front of the wavelengths and then round to 4 digits
-    plsr.coef$X <- as.numeric(substring(plsr.coef$X, 3))
-    
-    # lets make sure that all the samples are accounted for
-    plsr.index <- which(wavelengths %in% plsr.coef$X)
-    
     # set the matrix stack index
     s <- 1
     
@@ -67,7 +62,7 @@ hsi.coef <- function(hy.file, metadata.path, reflectance.path, wavelength.path,
     # if we are processing the entire image then we will remove the noisy bands
     # we can run this instead: c(25:194, 215:284, 325:403)
     # for just processing rbg images we can use: c(53,35,19)
-    for (q in plsr.index) {
+    for (q in band.combo) {
       
       # lets read in the band and clean it up like we need before
       refl.array <- h5read(file = hy.file,
@@ -77,15 +72,10 @@ hsi.coef <- function(hy.file, metadata.path, reflectance.path, wavelength.path,
       refl.matrix[refl.matrix == data.ignore.val] <- NA
       refl.matrix <- refl.matrix / scale.fact.val
       
-      # apply the appropriate coefficient
-      
-      # find the PLSR coeffecient associated with the band
-      rst.wl <- wavelengths[q]
-      
       # find the coef
-      wl.coef <- plsr.coef[plsr.coef$X == rst.wl,][,2]
+      wl.coef <- plsr.coef[s,2]
       
-      print(paste0("applying coefficient to ", plsr.coef[plsr.coef$X == rst.wl,][,1] ,"nm."))
+      print(paste0("applying coefficient to ", plsr.coef[s,1]))
       
       # apply the coefficient
       if (scale.data == TRUE) {
@@ -142,12 +132,6 @@ hsi.coef <- function(hy.file, metadata.path, reflectance.path, wavelength.path,
     # read in the PLSR coefficient data
     plsr.coef <- read.csv(coef.csv)
     
-    # remove the NM in front of the wavelengths and then round to 4 digits
-    plsr.coef$X <- as.numeric(substring(plsr.coef$X, 3))
-    
-    # lets make sure that all the samples are accounted for
-    plsr.index <- which(wavelengths %in% plsr.coef$X)
-    
     # set the matrix stack index
     s <- 1
     
@@ -155,7 +139,7 @@ hsi.coef <- function(hy.file, metadata.path, reflectance.path, wavelength.path,
     # if we are processing the entire image then we will remove the noisy bands
     # we can run this instead: c(25:194, 215:284, 325:403)
     # for just processing rbg images we can use: c(53,35,19)
-    for (q in plsr.index) {
+    for (q in band.combo) {
       
       # lets read in the band and clean it up like we need before
       refl.array <- h5read(file = hy.file,
@@ -165,15 +149,10 @@ hsi.coef <- function(hy.file, metadata.path, reflectance.path, wavelength.path,
       refl.matrix[refl.matrix == data.ignore.val] <- NA
       refl.matrix <- refl.matrix / scale.fact.val
       
-      # apply the appropriate coefficient
-      
-      # find the PLSR coeffecient associated with the band
-      rst.wl <- wavelengths[q]
-      
       # find the coef
-      wl.coef <- plsr.coef[plsr.coef$X == rst.wl,][,2]
+      wl.coef <- plsr.coef[s,2]
       
-      print(paste0("applying coefficient to ", plsr.coef[plsr.coef$X == rst.wl,][,1] ,"nm."))
+      print(paste0("applying coefficient to ", plsr.coef[s,1]))
       
       # apply the coefficient
       if (scale.data == TRUE) {

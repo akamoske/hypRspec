@@ -123,7 +123,8 @@ hsi.coef.rst <- hsi.coef("D:/BRDF_TESTING/TALL_HDF5/NEON_D08_TALL_DP1_20180429_1
                          reflectance.path = "/TALL/Reflectance/Reflectance_Data",
                          coef.csv = "./pc1_coef.csv",
                          inter = FALSE,
-                         scale.data = TRUE)
+                         scale.data = TRUE,
+                         band.combo = c(25:194, 215:284, 325:403))
                           
                              
 
