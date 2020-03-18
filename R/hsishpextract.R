@@ -128,9 +128,6 @@ hsi.shp.extract <- function(hy.file, metadata.path, reflectance.path,
     # lets add this into the right part of the matrix
     ext.mat[2:nrow(ext.mat), r] <- ref.toc
     
-    # lets add this into the right part of the matrix
-    ext.mat[2:nrow(ext.mat), r] <- as.vector(ref.data)
-    
     # set the matrix index
     r <- r + 1
     
