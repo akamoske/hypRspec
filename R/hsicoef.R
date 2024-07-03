@@ -13,7 +13,7 @@
 #' @return A raster with all coefficients applied
 #' @export
 #' 
-#' package requirement: rhdf5, raster
+#' package requirement: rhdf5, terra (replacing "raster")
 
 hsi.coef <- function(hy.file, metadata.path, reflectance.path, wavelength.path, 
                      coordinate.path, coef.csv, inter, scale.data, band.combo){
