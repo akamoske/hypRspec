@@ -1,7 +1,3 @@
-#' ---------------------------------------------------------------------------------------------------
-#' 
-#' WARNING, WARNING, WARNING!!!!!!!
-#' 
 #' THIS FUNCTION WILL OVERWRITE THE DATA THAT IS USED AS AN INPUT!!!!!!!!!!!
 #' 
 #' TO AVOID LOSING YOUR ORIGINAL DATA, MAKE SURE TO COPY THE ORIGINAL FILES TO ANOTHER LOCATION
@@ -60,8 +56,10 @@
 #' @param sensor.zn.path hdf5 path to sensor zenith data
 #' @param coordinate.path hdf5 path to coordinate data
 #' @param ross set to either "thick" or "thin" based on ross kernal needed
-#' @param li set to either "dense" or "sparse" based on ross kernal needed
+#' @param li set to either "dense" or "sparse" based on ross kernal needed 
+#' @param solar.zn.ref reference solar zenith angle (i.e., averaged SZA across flight linee; solar noon across a growing season, etc.)
 #' @param sensor.zn.ref reference sensor zenith angle (nadir-viewing if VZA = 0)
+#' @param relative.az.ref reference relative azimuth angle (doesn't matter if VZA = 0, it will be the same)
 #' @param h_b_ratio h/b describes vegetation height (H: height-to-center-crown, B: crown vertical radius; R: crown horizontal radius)
 #' @param b_r_ratop b/r describes crown shape
 #' @return A matrix topographic and brdf corrected reflectance data (nadir-viewing, reference solar zenith angle)
@@ -72,7 +70,11 @@ hsi.correct.write <- function(hy.file, ndvi.mask, brightness.mask,
                               metadata.path, reflectance.path, wavelength.path, 
                               solar.az.path, solar.zn.path, slope.path, aspect.path,
                               sensor.az.path, sensor.zn.path, coordinate.path, ross, 
-                              li, sensor.zn.ref,h_b_ratio, b_r_ratio){
+                              li, solar.zn.ref, sensor.zn.ref, relative.az.ref, h_b_ratio, b_r_ratio, sample.bands){
+  
+  # get TileID
+  file_string <- strsplit(hy.file, "_", fixed = "T")
+  tileID <- paste0(file_string[[1]][5], "_", file_string[[1]][6])
   
   # lets look at the reflectance metadata
   refl.info <- h5readAttributes(hy.file, metadata.path)
@@ -85,6 +87,9 @@ hsi.correct.write <- function(hy.file, ndvi.mask, brightness.mask,
   n.rows <- refl.info$Dimensions[1]
   n.cols <- refl.info$Dimensions[2]
   n.bands <- refl.info$Dimensions[3]
+  
+  n.sample.bands <- length(sample.bands)
+  sample.wavelengths <- wavelengths[sample.bands]
   
   # lets save the scale factor and the data ignore value
   scale.fact.val <- refl.info$Scale_Factor
@@ -123,6 +128,9 @@ hsi.correct.write <- function(hy.file, ndvi.mask, brightness.mask,
   solar.zn <- (solar.zn * pi) / 180
   sensor.az <- (sensor.az * pi) / 180
   sensor.zn <- (sensor.zn * pi) / 180
+  solar.zn.ref <- (solar.zn.ref * pi)/180
+  sensor.zn.ref <- (sensor.zn.ref *pi)/180
+  relative.az.ref <- (relative.az.ref*pi)/180
   
   #---------------------------------------------------------------------------------------------------
   # lets calculate the topographic correction coefficients
@@ -171,13 +179,13 @@ hsi.correct.write <- function(hy.file, ndvi.mask, brightness.mask,
   #---------------------------------------------------------------------------------------------------
   
   # first we need to use Eq 2. from Schlapfer et al. IEEE-TGARS 2015 which uses the inverse cosine
-  phase.nad.sr <- acos(cos(solar.zn) * cos(sensor.zn.ref) + sin(solar.zn) * sin(sensor.zn.ref) * cos(relative.az))
+  phase.nad.sr <- acos(cos(solar.zn.ref) * cos(sensor.zn.ref) + sin(solar.zn.ref) * sin(sensor.zn.ref) * cos(relative.az.ref))
   
   # for the Thick Ross Kernel - Eq 13. Wanner et al. JGRA 1995 (Eq. 7? )
-  ross.thick.nad <- ((pi/2 - phase.nad.sr) * cos(phase.nad.sr) + sin(phase.nad.sr)) / (cos(sensor.zn.ref) + cos(solar.zn)) - pi/4
+  ross.thick.nad <- ((pi/2 - phase.nad.sr) * cos(phase.nad.sr) + sin(phase.nad.sr)) / (cos(sensor.zn.ref) + cos(solar.zn.ref)) - pi/4
   
   # for the Thin Ross Kernel - Eq 13. Wanner et al. JGRA 1995
-  ross.thin.nad <- ((pi/2 - phase.nad.sr) * cos(phase.nad.sr) + sin(phase.nad.sr)) / (cos(sensor.zn.ref) * cos(solar.zn)) - pi/2
+  ross.thin.nad <- ((pi/2 - phase.nad.sr) * cos(phase.nad.sr) + sin(phase.nad.sr)) / (cos(sensor.zn.ref) * cos(solar.zn.ref)) - pi/2
   
   #---------------------------------------------------------------------------------------------------
   # now we need to calculate the Li Geometric Scattering Kernel
@@ -223,18 +231,18 @@ hsi.correct.write <- function(hy.file, ndvi.mask, brightness.mask,
   #---------------------------------------------------------------------------------------------------
   
   # first we need to implement Eq. 37,52. Wanner et al. JGRA 1995
-  solar.zn.at <- atan(b_r_ratio * tan(solar.zn))
+  solar.zn.at <- atan(b_r_ratio * tan(solar.zn.ref))
   sensor.zn.at <- atan(b_r_ratio * tan(sensor.zn.ref))
   
   # next we need to use Eq 50. Wanner et al. JGRA 1995
-  d <- sqrt((tan(solar.zn.at) ** 2) + (tan(sensor.zn.at) ** 2) - (2 * tan(solar.zn.at) * tan(sensor.zn.at) * cos(relative.az)))
+  d <- sqrt((tan(solar.zn.at) ** 2) + (tan(sensor.zn.at) ** 2) - (2 * tan(solar.zn.at) * tan(sensor.zn.at) * cos(relative.az.ref)))
   
   # next we need to use Eq 49. Wanner et al. JGRA 1995
   # we will need to restraint these values between -1 and 1 to not return NaN and Pi values
   # for more info see this stack exchange thread 
   # https://stackoverflow.com/questions/14026297/acos1-returns-nan-for-some-values-not-others
   
-  t.num <- h_b_ratio * sqrt(d**2 + (tan(solar.zn.at) * tan(sensor.zn.at) * sin(relative.az)) ** 2)
+  t.num <- h_b_ratio * sqrt(d**2 + (tan(solar.zn.at) * tan(sensor.zn.at) * sin(relative.az.ref)) ** 2)
   t.denom <- (1 / cos(solar.zn.at)) + (1 / cos(sensor.zn.at))
   
   t <- acos(pmax(pmin((h_b_ratio*(t.num/t.denom)), 1.0), -1.0))
@@ -243,7 +251,7 @@ hsi.correct.write <- function(hy.file, ndvi.mask, brightness.mask,
   o <- (1 / pi) * (t - sin(t) * cos(t)) * t.denom
   
   # next we need to use Eq 51. Wanner et al. JGRA 1995
-  cos.phase <- cos(solar.zn.at) * cos(sensor.zn.at) + sin(solar.zn.at) * sin(sensor.zn.at) * cos(relative.az)
+  cos.phase <- cos(solar.zn.at) * cos(sensor.zn.at) + sin(solar.zn.at) * sin(sensor.zn.at) * cos(relative.az.ref)
   
   # for the Sparse Li Kernel - Eq 32. Wanner et al. JGRA 1995
   li.sparse.nad <- o - (1 / cos(solar.zn.at)) - (1 / cos(sensor.zn.at)) + 0.5 * (1 + cos.phase) * (1 / cos(sensor.zn.at))
@@ -338,15 +346,23 @@ hsi.correct.write <- function(hy.file, ndvi.mask, brightness.mask,
   rm(slope)
   gc()
   
+  coef.matrix <- matrix(data = NaN, nrow = n.sample.bands, ncol = 7)
+  
   # lets correct the imagery and then overwrite it to the hdf5 file
-  for (q in 1:n.bands) {
+  # for (q in 1:n.bands) {
+  for (q in 1:n.sample.bands){
     
-    print(paste0("applying topographic correction to band ", q, "."))
+    bandID <- sample.bands[q]
+    
+    coef.matrix[q, 1] <- bandID
+    coef.matrix[q, 2] <- wavelengths[q]
+      
+    print(paste0("applying topographic correction to band ", bandID, "."))
     
     # lets read in the band and clean it up like we need before
     refl.array <- h5read(file = hy.file,
                          name = reflectance.path,
-                         index = list(q, 1:n.cols, 1:n.rows))
+                         index = list(bandID, 1:n.cols, 1:n.rows))
     refl.matrix <- refl.array[1,,]
     refl.matrix[refl.matrix == data.ignore.val] <- NA
     refl.matrix <- refl.matrix / scale.fact.val
@@ -370,9 +386,11 @@ hsi.correct.write <- function(hy.file, ndvi.mask, brightness.mask,
     
     # lets run the regression now: # Eq 7. Soenen et al., IEEE TGARS 2005
     topo.lm <- lm(y ~ x.topo)
+    print(topo.lm)
     
     # lets save the coefficients
     topo.coef <- topo.lm$coefficients
+    coef.matrix[q, 3:4] <- topo.coef
     
     # Eq 8. Soenen et al., IEEE TGARS 2005
     if (topo.coef[[2]] == 0){
@@ -401,7 +419,7 @@ hsi.correct.write <- function(hy.file, ndvi.mask, brightness.mask,
     # lets apply the brdf correction to the topo corrected band
     #---------------------------------------------------------------------------------------------------
     
-    print(paste0("applying brdf correction to band ", q, "."))
+    print(paste0("applying brdf correction to band ", bandID, "."))
     
     # lets apply the brightness mask to this topo corrected band
     topo.matrix <- ifelse(brightness.mask, topo.cor, NA)
@@ -411,6 +429,7 @@ hsi.correct.write <- function(hy.file, ndvi.mask, brightness.mask,
     
     # lets run the regression now
     brdf.lm <- lm(y ~ x.brdf)
+    print(brdf.lm)
     
     # memory management
     gc()
@@ -419,6 +438,7 @@ hsi.correct.write <- function(hy.file, ndvi.mask, brightness.mask,
     
     # lets save the coefficients
     brdf.coef <- brdf.lm$coefficients
+    coef.matrix[q,5:7] <- brdf.coef
     
     # now lets apply the coefficients to the band - eq 5. Weyermann et al. IEEE-TGARS 2015
     brdf <- brdf.coef[[1]] + (li.mask * brdf.coef[[3]]) + (ross.mask * brdf.coef[[2]])
@@ -457,9 +477,13 @@ hsi.correct.write <- function(hy.file, ndvi.mask, brightness.mask,
     h5write(band.brdf.scale, 
             file = hy.file, 
             name = reflectance.path,
-            index = list(q, NULL, NULL))
+            index = list(bandID, NULL, NULL))
     
     # print an update
-    print(paste0("Band #", q, " is finished!"))
+    print(paste0("Band #", bandID, " is finished!"))
+    
   } 
+  # save the coefficient matrix to table
+  write.csv(coef.matrix, file = paste0(HSI_folder, "umbs_", tileID, "_correction_coef", ".csv"))
+            
 }
