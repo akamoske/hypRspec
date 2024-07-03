@@ -12,6 +12,8 @@
 #' @param band.combo combination of bands index values that were used to generate the coefficients
 #' @return A raster with all coefficients applied
 #' @export
+#' 
+#' package requirement: rhdf5, raster
 
 hsi.coef <- function(hy.file, metadata.path, reflectance.path, wavelength.path, 
                      coordinate.path, coef.csv, inter, scale.data, band.combo){
@@ -79,7 +81,8 @@ hsi.coef <- function(hy.file, metadata.path, reflectance.path, wavelength.path,
       
       # apply the coefficient
       if (scale.data == TRUE) {
-        plsr.matrix <- raster::scale(refl.matrix, center = TRUE, scale = FALSE) * wl.coef
+        # plsr.matrix <- raster::scale(refl.matrix, center = TRUE, scale = FALSE) * wl.coef
+        plsr.matrix <- scale(refl.matrix, center = TRUE, scale = FALSE) * wl.coef
       }
       if (scale.data == FALSE) {
         plsr.matrix <- refl.matrix * wl.coef
@@ -104,10 +107,12 @@ hsi.coef <- function(hy.file, metadata.path, reflectance.path, wavelength.path,
     print(paste0("transforming flightline to a raster."))
     
     # convert the matrix to a raster
-    refl.raster <- raster(hsi.matrix, crs = crs.proj)
+    # refl.raster <- raster(hsi.matrix, crs = crs.proj)
+    refl.raster <- rast(hsi.matrix, crs = crs.proj)
     
     # we need to transpose the raster
-    refl.raster <- raster::t(refl.raster)
+    # refl.raster <- raster::t(refl.raster)
+    refl.raster <- t(refl.raster)
     
     # find the dimensions of our raster
     y.dim <- dim(refl.raster)[1]
@@ -118,10 +123,12 @@ hsi.coef <- function(hy.file, metadata.path, reflectance.path, wavelength.path,
     y.min <- y.max - y.dim
     
     # create an extent object
-    raster.ext <- extent(x.min, x.max, y.min, y.max)
+    # raster.ext <- extent(x.min, x.max, y.min, y.max)
+    raster.ext <- ext(x.min, x.max, y.min, y.max)
     
     # set the spatial extent of the raster
-    extent(refl.raster) <- raster.ext
+    # extent(refl.raster) <- raster.ext
+    ext(refl.raster) <- raster.ext
    
     return(refl.raster)
     
@@ -156,7 +163,8 @@ hsi.coef <- function(hy.file, metadata.path, reflectance.path, wavelength.path,
       
       # apply the coefficient
       if (scale.data == TRUE) {
-        plsr.matrix <- raster::scale(refl.matrix, center = TRUE, scale = FALSE) * wl.coef
+        # plsr.matrix <- raster::scale(refl.matrix, center = TRUE, scale = FALSE) * wl.coef
+        plsr.matrix <- scale(refl.matrix, center = TRUE, scale = FALSE) * wl.coef
       }
       if (scale.data == FALSE) {
         plsr.matrix <- refl.matrix * wl.coef
@@ -180,10 +188,12 @@ hsi.coef <- function(hy.file, metadata.path, reflectance.path, wavelength.path,
     print(paste0("transforming flightline to a raster."))
     
     # convert the matrix to a raster
-    refl.raster <- raster(hsi.matrix, crs = crs.proj)
+    # refl.raster <- raster(hsi.matrix, crs = crs.proj)
+    refl.raster <- rast(hsi.matrix, crs = crs.proj)
     
     # we need to transpose the raster
-    refl.raster <- raster::t(refl.raster)
+    # refl.raster <- raster::t(refl.raster)
+    refl.raster <- t(refl.raster)
     
     # find the dimensions of our raster
     y.dim <- dim(refl.raster)[1]
@@ -194,10 +204,12 @@ hsi.coef <- function(hy.file, metadata.path, reflectance.path, wavelength.path,
     y.min <- y.max - y.dim
     
     # create an extent object
-    raster.ext <- extent(x.min, x.max, y.min, y.max)
+    # raster.ext <- extent(x.min, x.max, y.min, y.max)
+    raster.ext <- ext(x.min, x.max, y.min, y.max)
     
     # set the spatial extent of the raster
-    extent(refl.raster) <- raster.ext
+    # extent(refl.raster) <- raster.ext
+    ext(refl.raster) <- raster.ext
     
     return(refl.raster)
   }

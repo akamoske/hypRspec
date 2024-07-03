@@ -10,6 +10,11 @@
 #' @param number.pts number of random points you want to extract from the file
 #' @return A matrix topographic and brdf corrected reflectance data
 #' @export
+#' 
+#' package requirement: rhdf5, raster, tools
+#' replace "raster" package functions with "terra" package
+#' install.packages('installr')
+#' install.Rtools(check = TRUE)
 
 hsi.random.extract <- function(hy.file, metadata.path, reflectance.path, 
                                coordinate.path, wavelength.path, band.combo, number.pts){
@@ -98,10 +103,12 @@ hsi.random.extract <- function(hy.file, metadata.path, reflectance.path,
     print(paste0("extracting data from band ", q, "."))
     
     # convert the matrix to a raster
-    refl.raster <- raster(refl.matrix, crs = crs.proj)
+    # refl.raster <- raster(refl.matrix, crs = crs.proj)
+    refl.raster <- rast(refl.matrix, crs = crs.proj)
     
     # we need to transpose the raster
-    refl.raster <- raster::t(refl.raster)
+    # refl.raster <- raster::t(refl.raster)
+    refl.raster <- t(refl.raster)
     
     # find the dimensions of our raster
     y.dim <- dim(refl.raster)[1]
@@ -112,16 +119,18 @@ hsi.random.extract <- function(hy.file, metadata.path, reflectance.path,
     y.min <- y.max - y.dim
     
     # create an extent object
-    raster.ext <- extent(x.min, x.max, y.min, y.max)
+    # raster.ext <- extent(x.min, x.max, y.min, y.max)
+    raster.ext <- ext(x.min, x.max, y.min, y.max)
     
     # set the spatial extent of the raster
-    extent(refl.raster) <- raster.ext
+    ext(refl.raster) <- raster.ext
     
     # the first time we need to create the random spatial dataframe to extract data from in subsequent loops
     if (w == 1){
       
       # lets extract the reflectance data
-      ref.toc <- sampleRandom(refl.raster, size = number.pts, na.rm = TRUE, sp = TRUE)
+      # ref.toc <- sampleRandom(refl.raster, size = number.pts, na.rm = TRUE, sp = TRUE)
+      ref.toc <- spatSample(refl.raster, size = number.pts, na.rm = TRUE, as.points = TRUE)
       
       # now we want to save the extracted data
       ref.data <- ref.toc@data
@@ -133,7 +142,8 @@ hsi.random.extract <- function(hy.file, metadata.path, reflectance.path,
     else {
       
       # extract the reflectance data with the above spatial points dataframe
-      ref.toc@data[,w] <- raster::extract(refl.raster, ref.toc, method = "simple")
+      # ref.toc@data[,w] <- raster::extract(refl.raster, ref.toc, method = "simple")
+      ref.toc@data[,w] <- extract(refl.raster, ref.toc, fun= NULL, method = "simple")
       
       # now we want to save the extracted data
       ref.data <- ref.toc@data[,w]

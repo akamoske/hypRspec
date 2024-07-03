@@ -12,6 +12,12 @@
 #' @return A matrix topographic and brdf corrected reflectance data
 #' @export
 
+# required packages: rhdf5, raster, tools, rgdal
+# update: "rgdal" is retired -> need to be replaced by "sf" or "sp"; 
+#         "raster" may be replaced by "terra"
+# code revision, 5/24/2024, M.c. @ Manly Miles
+
+
 hsi.shp.extract <- function(hy.file, metadata.path, reflectance.path, 
                             coordinate.path, wavelength.path, band.combo, shp.file.loc,
                             shp.file.name){
@@ -47,13 +53,15 @@ hsi.shp.extract <- function(hy.file, metadata.path, reflectance.path,
   # lets prevent R from writing the numbers in scientific format
   options(scipen = 999)
   
-  # lets read in the shapefile
-  toc.refl <- readOGR(shp.file.loc,
-                      shp.file.name)
+  # # lets read in the shapefile
+  # toc.refl <- readOGR(shp.file.loc,
+  #                     shp.file.name)
+  
+  toc.refl <- st_read(paste0(shp.file.loc, '/', shp.file.name), fid_column_name = "FID")
   
   # we need to make an empty matrix to store all the reflectance data in
   ext.mat <- matrix(ncol = length(band.combo) + 2, 
-                    nrow = length(toc.refl) + 1)
+                    nrow = length(toc.refl$geometry) + 1)
   
   # set the wavelength names
   wl.names <- paste0("nm", wavelengths[band.combo])
@@ -64,12 +72,14 @@ hsi.shp.extract <- function(hy.file, metadata.path, reflectance.path,
   ext.mat[1, 3:ncol(ext.mat)] <- wl.names
   
   # set the ID variable
-  ext.mat[2:nrow(ext.mat), 1] <- as.vector(1:toc.refl@data$ID)
+  # ext.mat[2:nrow(ext.mat), 1] <- as.vector(1:toc.refl$FID)
+  ext.mat[2:nrow(ext.mat), 1] <- toc.refl$FID
   
   # pull out the file name
   name.c <- tools::file_path_sans_ext(hy.file)
-  name.c <- strsplit(name.c, "/")[[1]][4]
-  ext.mat[2:nrow(ext.mat), 2] <- strsplit(name.c, "_")[[1]][3]
+  # name.c <- strsplit(name.c, "/")[[1]][4]
+  # ext.mat[2:nrow(ext.mat), 2] <- strsplit(name.c, "_")[[1]][3]
+  ext.mat[2:nrow(ext.mat), 2] <- name.c
   
   # set the index for the matrix column
   r <- 3 
@@ -101,10 +111,14 @@ hsi.shp.extract <- function(hy.file, metadata.path, reflectance.path,
     print(paste0("extracting data from band ", q, "."))
     
     # convert the matrix to a raster
-    refl.raster <- raster(refl.matrix, crs = crs.proj)
+    # refl.raster <- raster(refl.matrix, crs = crs.proj)
     
-    # we need to transpose the raster
-    refl.raster <- raster::t(refl.raster)
+    # shift to "Terra"
+    refl.raster <- rast(refl.matrix, crs = crs.proj)
+    
+    # # we need to transpose the raster (shift to "Terra")
+    # refl.raster <- raster::t(refl.raster)
+    refl.raster <- t(refl.raster)
     
     # find the dimensions of our raster
     y.dim <- dim(refl.raster)[1]
@@ -114,15 +128,21 @@ hsi.shp.extract <- function(hy.file, metadata.path, reflectance.path,
     x.max <- x.min + x.dim
     y.min <- y.max - y.dim
     
-    # create an extent object
-    raster.ext <- extent(x.min, x.max, y.min, y.max)
+    # # create an extent object(shift to "terra")
+    # raster.ext <- extent(x.min, x.max, y.min, y.max)
+    raster.ext <- ext(x.min, x.max, y.min, y.max)
     
     # set the spatial extent of the raster
     extent(refl.raster) <- raster.ext
     
     # lets extract the reflectance data
+    # ref.toc <- extract(x = refl.raster,
+    #                    y = toc.refl,
+    #                    method = "simple")
+    
     ref.toc <- extract(x = refl.raster,
                        y = toc.refl,
+                       fun = NULL,
                        method = "simple")
     
     # lets add this into the right part of the matrix
