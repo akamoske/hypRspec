@@ -32,6 +32,11 @@ Dr. Kyla M. Dahlin
   + [Michigan State University, Ecology, Evolutionary Biology, and Behavior Program](https://eebb.msu.edu/)
   + [ERSAM Lab](https://www.ersamlab.com/)
   + kdahlin@msu.edu
+
+Meicheng Shen
+  + [Michigan State University, Department of Geography, Environment, and Spatial Sciences](http://geo.msu.edu/)
+  + [ERSAM Lab](https://www.ersamlab.com/)
+  + shenmeic@msu.edu
   
 ## Installation
 
