@@ -3,7 +3,7 @@ Title: processing tools for hyperspectral imagery
 Version: 0.0.1
 Authors@R: person("Aaron", "Kamoske", email = "akamoske@gmail.com", role = c("aut", "cre"))
 Description: These tools process hyperspectral imagery.
-Depends: raster, rgdal, rhdf5
+Depends: terra, sp, rhdf5, sf
 License: GPL-2 + file LICENSE
 Encoding: UTF-8
 LazyData: FALSE
