@@ -85,21 +85,21 @@ brightness <- brightness.mask(hy.file = "D:/BRDF_TESTING/TALL_HDF5/NEON_D08_TALL
 # THIS FUNCTION OVERWRITES THE INPUT FILE - PLEASE COPY THE ORIGINAL DATA BEFORE RUNNING THIS!!!
 
 # Apply the corrections and OVERWRITE the hdf5 file
-hsi.raster <- hsi.correct.write(hy.file = "D:/BRDF_TESTING/TALL_HDF5/NEON_D08_TALL_DP1_20180429_190316_reflectance.h5",
-                                ndvi.mask = ndvi,
-                                brightness.mask = brightness,
-                                metadata.path = "/TALL/Reflectance/Reflectance_Data",
-                                reflectance.path = "/TALL/Reflectance/Reflectance_Data",
-                                wavelength.path = "/TALL/Reflectance/Metadata/Spectral_Data/Wavelength",
-                                solar.az.path = "/TALL/Reflectance/Metadata/Logs/Solar_Azimuth_Angle",
-                                solar.zn.path = "/TALL/Reflectance/Metadata/Logs/Solar_Zenith_Angle",
-                                slope.path = "/TALL/Reflectance/Metadata/Ancillary_Imagery/Slope",
-                                aspect.path = "/TALL/Reflectance/Metadata/Ancillary_Imagery/Aspect",
-                                sensor.az.path = "/TALL/Reflectance/Metadata/to-sensor_Azimuth_Angle",
-                                sensor.zn.path = "/TALL/Reflectance/Metadata/to-sensor_Zenith_Angle",
-                                coordinate.path = "/TALL/Reflectance/Metadata/Coordinate_System",
-                                ross = "thick",
-                                li = "dense")
+hsi.raster <- hsi.correct.write.2(hy.file = "D:/BRDF_TESTING/TALL_HDF5/NEON_D08_TALL_DP1_20180429_190316_reflectance.h5",
+                                  ndvi.mask = ndvi,
+                                  brightness.mask = brightness,
+                                  metadata.path = "/TALL/Reflectance/Reflectance_Data",
+                                  reflectance.path = "/TALL/Reflectance/Reflectance_Data",
+                                  wavelength.path = "/TALL/Reflectance/Metadata/Spectral_Data/Wavelength",
+                                  solar.az.path = "/TALL/Reflectance/Metadata/Logs/Solar_Azimuth_Angle",
+                                  solar.zn.path = "/TALL/Reflectance/Metadata/Logs/Solar_Zenith_Angle",
+                                  slope.path = "/TALL/Reflectance/Metadata/Ancillary_Imagery/Slope",
+                                  aspect.path = "/TALL/Reflectance/Metadata/Ancillary_Imagery/Aspect",
+                                  sensor.az.path = "/TALL/Reflectance/Metadata/to-sensor_Azimuth_Angle",
+                                  sensor.zn.path = "/TALL/Reflectance/Metadata/to-sensor_Zenith_Angle",
+                                  coordinate.path = "/TALL/Reflectance/Metadata/Coordinate_System",
+                                  ross = "thick",
+                                  li = "dense")
                              
 # extract reflectance data with a set of random points from the corrected HSI hdf5 file
 hsi.refl.points <- hsi.random.extract("D:/BRDF_TESTING/TALL_HDF5/NEON_D08_TALL_DP1_20180429_190316_reflectance.h5", 
