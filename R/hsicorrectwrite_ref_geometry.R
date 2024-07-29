@@ -66,7 +66,7 @@
 #' @export
 #' 
 
-hsi.correct.write <- function(hy.file, ndvi.mask, brightness.mask, 
+hsi.correct.write.2 <- function(hy.file, ndvi.mask, brightness.mask, 
                               metadata.path, reflectance.path, wavelength.path, 
                               solar.az.path, solar.zn.path, slope.path, aspect.path,
                               sensor.az.path, sensor.zn.path, coordinate.path, ross, 
