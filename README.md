@@ -56,8 +56,8 @@ install_github("akamoske/hypRspec")
 library(hypRspec)
 
 # If you need to install the rhdf5 package this is the best way to do it
-source("http://bioconductor.org/biocLite.R")
-biocLite("rhdf5")
+install.packages("BiocManager")
+BiocManager::install("rhdf5")
 ```
 
 ## Example of usage (after installation)
